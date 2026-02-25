@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAWO Customer Satisfaction Survey</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #f0f2f5;
+      padding: 40px 20px;
+    }
+    form {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px;
+      background: #f9f9f9;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .SurveyHead {
+      font-family: 'Montserrat', sans-serif;
+      text-align: left;
+      color: #FF0000;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    hr {
+      width: 100%;
+      text-align: left;
+      margin-left: 0;
+      margin-bottom: 20px;
+    }
+    p {
+      color: #555;
+      margin-bottom: 10px;
+    }
+    .intro { text-align: left; }
+    .scale-label { text-align: left; }
+    .criteria-box {
+      text-align: center;
+      margin: 10px 0 20px;
+      color: #333;
+      line-height: 2;
+    }
+    .section-title {
+      text-align: left;
+      color: #2c3e50;
+      font-size: 18px;
+      margin: 24px 0 12px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #333;
+    }
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #fff;
+    }
+    select { cursor: pointer; }
+    textarea { min-height: 100px; resize: vertical; }
+    .rating-group {
+      display: flex;
+      justify-content: space-around;
+      margin: 10px 0 15px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .rating-group label {
+      font-weight: normal;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .rating-group input[type="radio"] {
+      cursor: pointer;
+      accent-color: #3498db;
+    }
+    .questionnaire-header {
+      text-align: center;
+      font-size: 20px;
+      color: #2c3e50;
+      font-weight: 700;
+      margin: 20px 0 5px;
+    }
+    .criteria-header {
+      display: flex;
+      justify-content: space-between;
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    button[type="submit"] {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      margin-top: 20px;
+      border-radius: 10px;
+      font-size: 1.2em;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      min-width: 50px;
+      max-width: 300px;
+      transition: background-color 0.3s ease;
+    }
+    button[type="submit"]:hover { background-color: #2980b9; }
+
+    /* Success/error message */
+    .form-message {
+      display: none;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-weight: 600;
+      text-align: center;
+    }
+    .form-message.success { background: #d4edda; color: #155724; display: block; }
+    .form-message.error { background: #f8d7da; color: #721c24; display: block; }
+
+    @media (max-width: 768px) {
+      .SurveyHead { padding-top: 35px; font-size: 20px; }
+      form { padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<form id="survey-form" action="https://formspree.io/f/mvzbdwap" method="POST">
+
+  <div>
+    <h2 class="SurveyHead">Customer Satisfaction Survey</h2>
+    <hr>
+  </div>
+
+  <p class="intro">
+    Dear Customer/Associate, <br><br>
+    Thank you for choosing SAWO products. We want to give our customers the best help and support possible.
+    Please help us to improve our products and service by answering to few questions about your experience.
+    This will take approximately 15 mins. Your answers are highly appreciated.
+  </p>
+
+  <br>
+  <p class="scale-label"><strong>Please file the survey form according to the rating scale below:</strong></p>
+  <div class="criteria-box">
+    5 - Excellent&nbsp;&nbsp;&nbsp;&nbsp;2 - Needs Improvement<br><br>
+    4 - Very Satisfactory&nbsp;&nbsp;&nbsp;&nbsp;1 - Poor<br><br>
+    3 - Satisfactory
+  </div>
+
+  <p style="text-align:left;font-size:18px;">Personal Information</p>
+
+  <label>Company (required):
+    <input type="text" name="company" required>
+  </label>
+
+  <label>Email (required):
+    <input type="email" name="email" required>
+  </label>
+
+  <label>Country (required):
+    <select name="country" required>
+      <option value="">-- Select Country --</option>
+      <option>Afghanistan</option><option>Albania</option><option>Algeria</option>
+      <option>American Samoa</option><option>Andorra</option><option>Angola</option>
+      <option>Antigua and Barbuda</option><option>Armenia</option><option>Aruba</option>
+      <option>Australia</option><option>Austria</option><option>Azerbaijan</option>
+      <option>The Bahamas</option><option>Bahrain</option><option>Bangladesh</option>
+      <option>Barbados</option><option>Belarus</option><option>Belgium</option>
+      <option>Belize</option><option>Benin</option><option>Bermuda</option>
+      <option>Bhutan</option><option>Bolivia</option><option>Bosnia and Herzegovina</option>
+      <option>Botswana</option><option>Brazil</option><option>Brunei</option>
+      <option>Bulgaria</option><option>Burkina Faso</option><option>Burundi</option>
+      <option>Cabo Verde</option><option>Cambodia</option><option>Cameroon</option>
+      <option>Canada</option><option>Cayman Islands</option><option>Central African Republic</option>
+      <option>Chad</option><option>Chile</option><option>China</option>
+      <option>Colombia</option><option>Comoros</option><option>Democratic Republic of the Congo</option>
+      <option>Republic of the Congo</option><option>Costa Rica</option><option>Côte d'Ivoire</option>
+      <option>Croatia</option><option>Cuba</option><option>Curaçao</option>
+      <option>Cyprus</option><option>Czech Republic</option><option>Denmark</option>
+      <option>Djibouti</option><option>Dominica</option><option>Dominican Republic</option>
+      <option>East Timor</option><option>Ecuador</option><option>Egypt</option>
+      <option>El Salvador</option><option>Equatorial Guinea</option><option>Eritrea</option>
+      <option>Estonia</option><option>Eswatini</option><option>Ethiopia</option>
+      <option>Faroe Islands</option><option>Fiji</option><option>Finland</option>
+      <option>France</option><option>French Guiana</option><option>French Polynesia</option>
+      <option>Gabon</option><option>The Gambia</option><option>Gaza Strip</option>
+      <option>Georgia</option><option>Germany</option><option>Ghana</option>
+      <option>Greece</option><option>Greenland</option><option>Grenada</option>
+      <option>Guadeloupe</option><option>Guam</option><option>Guatemala</option>
+      <option>Guernsey</option><option>Guinea</option><option>Guinea-Bissau</option>
+      <option>Guyana</option><option>Haiti</option><option>Honduras</option>
+      <option>Hong Kong</option><option>Hungary</option><option>Iceland</option>
+      <option>India</option><option>Indonesia</option><option>Iran</option>
+      <option>Iraq</option><option>Ireland</option><option>Isle of Man</option>
+      <option>Israel</option><option>Italy</option><option>Jamaica</option>
+      <option>Japan</option><option>Jersey</option><option>Jordan</option>
+      <option>Kazakhstan</option><option>Kenya</option><option>Kiribati</option>
+      <option>North Korea</option><option>South Korea</option><option>Kosovo</option>
+      <option>Kuwait</option><option>Kyrgyzstan</option><option>Laos</option>
+      <option>Latvia</option><option>Lebanon</option><option>Lesotho</option>
+      <option>Liberia</option><option>Libya</option><option>Liechtenstein</option>
+      <option>Lithuania</option><option>Luxembourg</option><option>Macau</option>
+      <option>Madagascar</option><option>Malawi</option><option>Malaysia</option>
+      <option>Maldives</option><option>Mali</option><option>Malta</option>
+      <option>Marshall Islands</option><option>Martinique</option><option>Mauritania</option>
+      <option>Mauritius</option><option>Mayotte</option><option>Mexico</option>
+      <option>Micronesia</option><option>Moldova</option><option>Monaco</option>
+      <option>Mongolia</option><option>Montenegro</option><option>Morocco</option>
+      <option>Mozambique</option><option>Myanmar</option><option>Namibia</option>
+      <option>Nauru</option><option>Nepal</option><option>Netherlands</option>
+      <option>New Caledonia</option><option>New Zealand</option><option>Nicaragua</option>
+      <option>Niger</option><option>Nigeria</option><option>North Macedonia</option>
+      <option>Northern Mariana Islands</option><option>Norway</option><option>Oman</option>
+      <option>Pakistan</option><option>Palau</option><option>Panama</option>
+      <option>Papua New Guinea</option><option>Paraguay</option><option>Peru</option>
+      <option>Philippines</option><option>Poland</option><option>Portugal</option>
+      <option>Puerto Rico</option><option>Qatar</option><option>Réunion</option>
+      <option>Romania</option><option>Russia</option><option>Rwanda</option>
+      <option>Saint Kitts and Nevis</option><option>Saint Vincent and the Grenadines</option>
+      <option>Samoa</option><option>San Marino</option><option>Sao Tome and Principe</option>
+      <option>Saudi Arabia</option><option>Senegal</option><option>Serbia</option>
+      <option>Seychelles</option><option>Sierra Leone</option><option>Singapore</option>
+      <option>Sint Maarten</option><option>Slovakia</option><option>Slovenia</option>
+      <option>Solomon Islands</option><option>Somalia</option><option>South Africa</option>
+      <option>Spain</option><option>Sri Lanka</option><option>Sudan</option>
+      <option>South Sudan</option><option>Suriname</option><option>Sweden</option>
+      <option>Switzerland</option><option>Syria</option><option>Taiwan</option>
+      <option>Tajikistan</option><option>Tanzania</option><option>Thailand</option>
+      <option>Togo</option><option>Tonga</option><option>Trinidad and Tobago</option>
+      <option>Tunisia</option><option>Turkey</option><option>Tuvalu</option>
+      <option>Uganda</option><option>Ukraine</option><option>United Arab Emirates</option>
+      <option>United Kingdom</option><option>United States</option>
+      <option>United States Virgin Islands</option><option>Uruguay</option>
+      <option>Uzbekistan</option><option>Vanuatu</option><option>Vatican City</option>
+      <option>Venezuela</option><option>Vietnam</option><option>West Bank</option>
+      <option>Yemen</option><option>Zambia</option><option>Zimbabwe</option>
+      <option>Others</option>
+    </select>
+  </label>
+
+  <br><br>
+
+  <p class="questionnaire-header">QUESTIONNAIRE</p><br>
+  <div class="criteria-header"><span>CRITERIA</span><span>RATING</span></div>
+
+  <!-- 1. Quality of Products -->
+  <h3 class="section-title">1. Quality of Products</h3>
+
+  <label>Heaters:</label>
+  <div class="rating-group" id="heaters_rating"></div>
+
+  <label>Steam Generators:</label>
+  <div class="rating-group" id="steam_generators_rating"></div>
+
+  <label>Controls:</label>
+  <div class="rating-group" id="controls_rating"></div>
+
+  <label>Sauna Accessories:</label>
+  <div class="rating-group" id="sauna_accessories_rating"></div>
+
+  <label>Sauna Rooms:</label>
+  <div class="rating-group" id="sauna_rooms_rating"></div>
+
+  <label>Comments/Suggestions:
+    <textarea name="product_comments"></textarea>
+  </label>
+
+  <!-- 2. Quality of Service -->
+  <h3 class="section-title">2. Quality of Service</h3>
+
+  <label>Response Time to Emails:</label>
+  <div class="rating-group" id="emails_response"></div>
+
+  <label>Response Time to Complaints:</label>
+  <div class="rating-group" id="complaints_response"></div>
+
+  <label>Response Time to Technical Inquiries:</label>
+  <div class="rating-group" id="technical_inquiries_response"></div>
+
+  <label>Comments/Suggestions:
+    <textarea name="service_comments"></textarea>
+  </label>
+
+  <!-- 3. Sales Performance -->
+  <h3 class="section-title">3. Sales Performance</h3>
+
+  <label>Overall Performance of Sales Representatives:</label>
+  <div class="rating-group" id="sales_rep_performance"></div>
+
+  <label>Ease of Ordering:</label>
+  <div class="rating-group" id="ease_of_ordering"></div>
+
+  <label>Quickness of Receiving Quotation/Invoice:</label>
+  <div class="rating-group" id="quotation_speed"></div>
+
+  <label>Comments/Suggestions:
+    <textarea name="sales_comments"></textarea>
+  </label>
+
+  <!-- 4. Delivery of Products -->
+  <h3 class="section-title">4. Delivery of Products</h3>
+
+  <label>Time from Ordering to Shipping:</label>
+  <div class="rating-group" id="ordering_shipping_time"></div>
+
+  <label>Accuracy of Shipped Orders:</label>
+  <div class="rating-group" id="accuracy_of_orders"></div>
+
+  <label>Comments/Suggestions:
+    <textarea name="delivery_comments"></textarea>
+  </label>
+
+  <!-- 5. Pricing -->
+  <h3 class="section-title">5. Pricing</h3>
+
+  <label>Price Competitiveness:</label>
+  <div class="rating-group" id="price_competitiveness"></div>
+
+  <label>Price-Quality Ratio:</label>
+  <div class="rating-group" id="price_quality_ratio"></div>
+
+  <label>Comments/Suggestions:
+    <textarea name="pricing_comments"></textarea>
+  </label>
+
+  <div class="form-message" id="form-message"></div>
+
+  <button type="submit">SEND FEEDBACK</button>
+</form>
+
+<script>
+  function createRatingInputs(containerId, fieldName) {
+    const container = document.getElementById(containerId);
+    let html = '';
+    for (let i = 1; i <= 5; i++) {
+      html += `<label><input type="radio" name="${fieldName}" value="${i}" required> ${i}</label>`;
+    }
+    container.innerHTML = html;
+  }
+
+  const ratingFields = [
+    ['heaters_rating', 'heaters_rating'],
+    ['steam_generators_rating', 'steam_generators_rating'],
+    ['controls_rating', 'controls_rating'],
+    ['sauna_accessories_rating', 'sauna_accessories_rating'],
+    ['sauna_rooms_rating', 'sauna_rooms_rating'],
+    ['emails_response', 'emails_response'],
+    ['complaints_response', 'complaints_response'],
+    ['technical_inquiries_response', 'technical_inquiries_response'],
+    ['sales_rep_performance', 'sales_rep_performance'],
+    ['ease_of_ordering', 'ease_of_ordering'],
+    ['quotation_speed', 'quotation_speed'],
+    ['ordering_shipping_time', 'ordering_shipping_time'],
+    ['accuracy_of_orders', 'accuracy_of_orders'],
+    ['price_competitiveness', 'price_competitiveness'],
+    ['price_quality_ratio', 'price_quality_ratio']
+  ];
+
+  ratingFields.forEach(([id, name]) => createRatingInputs(id, name));
+
+  // Handle Formspree submission via fetch (AJAX) for better UX
+  document.getElementById('survey-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const msgEl = document.getElementById('form-message');
+    const btn = form.querySelector('button[type="submit"]');
+
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        msgEl.textContent = 'Thank you for taking the time to give us feedback!';
+        msgEl.className = 'form-message success';
+        form.reset();
+        btn.textContent = 'SEND FEEDBACK';
+        btn.disabled = false;
+      } else {
+        const data = await response.json();
+        msgEl.textContent = data.errors ? data.errors.map(e => e.message).join(', ') : 'Something went wrong. Please try again.';
+        msgEl.className = 'form-message error';
+        btn.textContent = 'SEND FEEDBACK';
+        btn.disabled = false;
+      }
+    } catch (err) {
+      msgEl.textContent = 'Network error. Please check your connection and try again.';
+      msgEl.className = 'form-message error';
+      btn.textContent = 'SEND FEEDBACK';
+      btn.disabled = false;
+    }
+
+    msgEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+</script>
+
+</body>
+</html>
