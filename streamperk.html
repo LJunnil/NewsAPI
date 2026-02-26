@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StreamPerk — Discover the Philippines</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --cream:#FAF6F0; --sand:#E8DDD0; --warm:#C9A882;
+      --teal:#2A7B6F; --deep:#1A3D35; --coral:#D4644A;
+      --text:#2C2416; --muted:#7A6A58;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden;}
+
+    /* ── NAV ── */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:18px 60px;
+      background:rgba(250,246,240,0.95);backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(201,168,130,0.2);transition:box-shadow .3s;
+    }
+    .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--deep);}
+    .nav-logo span{color:var(--coral);font-style:italic;}
+    .nav-links{display:flex;gap:32px;list-style:none;align-items:center;}
+    .nav-links a{font-size:.79rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+    .nav-links a:hover{color:var(--coral);}
+    .nav-cta{background:var(--deep)!important;color:var(--cream)!important;padding:9px 22px;border-radius:40px!important;}
+    .nav-cta:hover{background:var(--coral)!important;color:var(--cream)!important;}
+
+    /* ── BUTTONS ── */
+    .btn-primary{background:var(--deep);color:var(--cream);padding:13px 30px;border-radius:50px;font-size:.84rem;font-weight:500;letter-spacing:.08em;text-decoration:none;transition:all .3s;display:inline-flex;align-items:center;gap:8px;}
+    .btn-primary:hover{background:var(--coral);transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,100,74,.3);}
+    .btn-secondary{color:var(--deep);font-size:.84rem;font-weight:500;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s;}
+    .btn-secondary:hover{color:var(--coral);gap:12px;}
+    .btn-ghost{border:1.5px solid var(--deep);color:var(--deep);padding:11px 24px;border-radius:50px;font-size:.79rem;font-weight:500;letter-spacing:.08em;text-decoration:none;transition:all .3s;white-space:nowrap;display:inline-flex;align-items:center;gap:8px;}
+    .btn-ghost:hover{background:var(--deep);color:var(--cream);}
+
+    /* ── EYEBROW ── */
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.71rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);margin-bottom:16px;}
+    .eyebrow-line{width:36px;height:1px;background:var(--coral);}
+
+    /* ── HERO ── */
+    .hero{
+      min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
+      align-items:center;padding:110px 60px 60px;gap:48px;
+      position:relative;overflow:hidden;
+    }
+    .hero::before{
+      content:'';position:absolute;inset:0;pointer-events:none;
+      background:radial-gradient(ellipse at 70% 46%,rgba(42,123,111,.06) 0%,transparent 55%),
+                 radial-gradient(ellipse at 10% 78%,rgba(212,100,74,.05) 0%,transparent 48%);
+    }
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,5vw,5.2rem);font-weight:700;line-height:1.04;color:var(--deep);margin-bottom:22px;}
+    .hero h1 em{font-style:italic;color:var(--teal);}
+    .hero-sub{font-size:1rem;color:var(--muted);line-height:1.82;max-width:430px;margin-bottom:36px;font-weight:300;}
+    .hero-actions{display:flex;gap:16px;align-items:center;}
+    .hero-stats{display:flex;gap:36px;margin-top:50px;padding-top:36px;border-top:1px solid var(--sand);}
+    .stat-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--deep);line-height:1;}
+    .stat-label{font-size:.71rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:4px;}
+
+    /* Hero image column */
+    .hero-visuals{position:relative;height:580px;}
+    .hero-img-main{
+      position:absolute;right:0;top:50%;transform:translateY(-50%);
+      width:310px;height:430px;
+      border-radius:200px 200px 20px 20px;overflow:hidden;
+      box-shadow:0 32px 80px rgba(26,61,53,.24);
+    }
+    .hero-img-main img{width:100%;height:100%;object-fit:cover;display:block;}
+    .hero-img-sm{
+      position:absolute;left:20px;bottom:45px;
+      width:185px;height:235px;
+      border-radius:14px 14px 90px 90px;overflow:hidden;
+      box-shadow:0 16px 48px rgba(26,61,53,.18);
+      border:5px solid var(--cream);
+    }
+    .hero-img-sm img{width:100%;height:100%;object-fit:cover;display:block;}
+    .hero-badge{
+      position:absolute;top:80px;left:0;z-index:10;
+      background:#fff;border-radius:16px;padding:13px 18px;
+      box-shadow:0 8px 32px rgba(0,0,0,.1);
+      display:flex;align-items:center;gap:11px;
+      animation:floatY 4s ease-in-out infinite;
+    }
+    @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+    .badge-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--teal),var(--deep));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
+    .badge-text strong{display:block;font-size:.79rem;font-weight:600;color:var(--deep);}
+    .badge-text span{font-size:.68rem;color:var(--muted);}
+    /* Decorative dot pattern */
+    .hero-dots{position:absolute;bottom:80px;right:-10px;display:grid;grid-template-columns:repeat(5,8px);gap:8px;opacity:.22;}
+    .hero-dots span{width:8px;height:8px;border-radius:50%;background:var(--teal);display:block;}
+
+    /* ── SECTION HEADER ── */
+    .section-hd{text-align:center;padding:88px 60px 52px;}
+    .section-hd h2{font-family:'Playfair Display',serif;font-size:clamp(2.1rem,4vw,3.5rem);color:var(--deep);font-weight:700;line-height:1.1;}
+    .section-hd h2 em{font-style:italic;color:var(--teal);}
+    .section-hd p{font-size:.96rem;color:var(--muted);max-width:510px;margin:16px auto 0;line-height:1.82;font-weight:300;}
+
+    /* ── DESTINATIONS ── */
+    .destinations{padding:0 60px 90px;}
+    .dest-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:300px 300px;gap:14px;}
+    .dest-card{position:relative;border-radius:20px;overflow:hidden;cursor:pointer;}
+    .dest-card:first-child{grid-row:1/3;}
+    .dest-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s;display:block;}
+    .dest-card:hover img{transform:scale(1.06);}
+    .dest-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,24,16,.9) 0%,rgba(8,24,16,.08) 50%,transparent 100%);transition:all .3s;}
+    .dest-card:hover .dest-ov{background:linear-gradient(to top,rgba(8,24,16,.94) 0%,rgba(8,24,16,.36) 62%,transparent 100%);}
+    .dest-info{position:absolute;bottom:0;left:0;right:0;padding:24px;}
+    .dest-tag{display:inline-block;font-size:.66rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.28);border-radius:40px;padding:4px 12px;margin-bottom:8px;}
+    .dest-name{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:600;color:#fff;line-height:1.2;}
+    .dest-card:first-child .dest-name{font-size:2.5rem;}
+    .dest-sub{font-size:.78rem;color:rgba(255,255,255,.62);margin-top:3px;}
+    .dest-star{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);border-radius:40px;padding:5px 12px;font-size:.74rem;color:#fff;}
+
+    /* ── FEATURES ── */
+    .features{background:var(--deep);padding:54px 60px;display:grid;grid-template-columns:repeat(4,1fr);gap:36px;}
+    .feat-item{text-align:center;}
+    .feat-icon{width:52px;height:52px;background:rgba(201,168,130,.14);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 14px;}
+    .feat-item h4{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--cream);margin-bottom:6px;}
+    .feat-item p{font-size:.79rem;color:rgba(250,246,240,.45);line-height:1.72;}
+
+    /* ── APPS ── */
+    .apps-section{padding:88px 60px;background:var(--sand);}
+    .apps-hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:50px;}
+    .apps-hd-left h2{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.4vw,2.85rem);color:var(--deep);font-weight:700;line-height:1.1;}
+    .apps-hd-left h2 em{font-style:italic;color:var(--coral);}
+    .apps-hd-left p{font-size:.92rem;color:var(--muted);margin-top:10px;max-width:390px;line-height:1.72;}
+    .apps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+    .app-card{background:var(--cream);border-radius:20px;overflow:hidden;transition:all .35s;border:1px solid rgba(201,168,130,.28);}
+    .app-card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(26,61,53,.11);border-color:var(--warm);}
+    .app-thumb{height:152px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+    .at-green{background:linear-gradient(135deg,#2D8C5A,#1A5C3A,#0D3D25);}
+    .at-blue{background:linear-gradient(135deg,#2D5FA5,#1A3A6E,#0D2048);}
+    .at-pink{background:linear-gradient(135deg,#A53A6E,#6E1A42,#4A0D2A);}
+    .at-orange{background:linear-gradient(135deg,#C9622A,#8C3A10,#5A2008);}
+    .app-ltr{font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:300;color:rgba(255,255,255,.09);}
+    .app-ico{position:absolute;width:60px;height:60px;background:rgba(255,255,255,.12);border-radius:17px;display:flex;align-items:center;justify-content:center;font-size:1.85rem;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.2);}
+    .app-body{padding:18px 20px;}
+    .app-name{font-family:'Cormorant Garamond',serif;font-size:1.22rem;font-weight:600;color:var(--deep);margin-bottom:5px;}
+    .app-desc{font-size:.77rem;color:var(--muted);line-height:1.6;margin-bottom:15px;}
+    .app-ft{display:flex;align-items:center;justify-content:space-between;}
+    .app-bdg{font-size:.67rem;font-weight:600;letter-spacing:.08em;color:var(--teal);text-transform:uppercase;}
+    .btn-inst{background:var(--deep);color:var(--cream);padding:7px 16px;border-radius:40px;font-size:.69rem;font-weight:500;letter-spacing:.08em;text-decoration:none;transition:all .25s;display:inline-flex;align-items:center;gap:5px;}
+    .btn-inst:hover{background:var(--coral);transform:scale(1.04);}
+
+    /* ── BLOG SECTION ── */
+    .blog-section{padding:88px 60px;background:var(--cream);}
+    .blog-inner{max-width:1200px;margin:0 auto;}
+    .blog-hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:50px;}
+    .blog-hd-left h2{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.4vw,2.85rem);color:var(--deep);font-weight:700;line-height:1.1;}
+    .blog-hd-left h2 em{font-style:italic;color:var(--teal);}
+    .blog-hd-left p{font-size:.92rem;color:var(--muted);margin-top:10px;max-width:500px;line-height:1.72;}
+
+    /* Row 1: Featured + 3 stacked */
+    .blog-row1{display:grid;grid-template-columns:1.15fr 1fr;gap:22px;margin-bottom:22px;}
+    .blog-featured{border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 4px 24px rgba(26,61,53,.07);border:1px solid rgba(201,168,130,.2);cursor:pointer;transition:all .35s;display:flex;flex-direction:column;}
+    .blog-featured:hover{transform:translateY(-5px);box-shadow:0 18px 52px rgba(26,61,53,.13);}
+    .bf-img{height:295px;overflow:hidden;position:relative;}
+    .bf-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s;display:block;}
+    .blog-featured:hover .bf-img img{transform:scale(1.05);}
+    .bf-body{padding:28px;flex:1;display:flex;flex-direction:column;}
+
+    .blog-stack{display:flex;flex-direction:column;gap:14px;}
+    .blog-sm{display:flex;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 3px 16px rgba(26,61,53,.06);border:1px solid rgba(201,168,130,.18);cursor:pointer;transition:all .3s;}
+    .blog-sm:hover{transform:translateX(5px);box-shadow:0 8px 30px rgba(26,61,53,.1);}
+    .bsm-img{width:120px;min-width:120px;overflow:hidden;}
+    .bsm-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s;display:block;}
+    .blog-sm:hover .bsm-img img{transform:scale(1.07);}
+    .bsm-body{padding:16px 18px;display:flex;flex-direction:column;justify-content:center;}
+
+    /* Row 2: 3 cards */
+    .blog-row2{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+    .blog-card{border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 4px 18px rgba(26,61,53,.06);border:1px solid rgba(201,168,130,.18);cursor:pointer;transition:all .32s;}
+    .blog-card:hover{transform:translateY(-5px);box-shadow:0 14px 40px rgba(26,61,53,.11);}
+    .bc-img{height:170px;overflow:hidden;}
+    .bc-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s;display:block;}
+    .blog-card:hover .bc-img img{transform:scale(1.06);}
+    .bc-body{padding:20px;}
+
+    /* Shared blog text */
+    .blog-cat{display:inline-block;font-size:.64rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);margin-bottom:7px;}
+    .blog-title{font-family:'Cormorant Garamond',serif;font-size:1.22rem;font-weight:600;color:var(--deep);line-height:1.32;margin-bottom:8px;}
+    .blog-featured .blog-title{font-size:1.6rem;}
+    .blog-excerpt{font-size:.78rem;color:var(--muted);line-height:1.68;margin-bottom:14px;}
+    .blog-meta{display:flex;flex-wrap:wrap;align-items:center;gap:12px;font-size:.7rem;color:var(--muted);}
+    .blog-source{display:inline-flex;align-items:center;gap:5px;font-size:.69rem;font-weight:600;color:var(--teal);text-transform:uppercase;letter-spacing:.06em;margin-top:auto;padding-top:14px;text-decoration:none;transition:color .2s;}
+    .blog-source:hover{color:var(--coral);}
+    .blog-source svg{transition:transform .2s;}
+    .blog-source:hover svg{transform:translateX(3px);}
+    /* Source badge */
+    .src-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(42,123,111,.08);color:var(--teal);border-radius:6px;padding:3px 8px;font-size:.65rem;font-weight:600;letter-spacing:.06em;}
+
+    /* ── TIPS ── */
+    .tips-section{padding:88px 60px;background:var(--sand);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+    .tips-visual{position:relative;height:500px;}
+    .tv-main{position:absolute;left:0;top:0;width:72%;height:390px;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(26,61,53,.2);}
+    .tv-main img{width:100%;height:100%;object-fit:cover;display:block;}
+    .tv-sm{position:absolute;right:0;bottom:0;width:52%;height:255px;border-radius:20px;overflow:hidden;border:6px solid var(--sand);box-shadow:0 16px 48px rgba(26,61,53,.18);}
+    .tv-sm img{width:100%;height:100%;object-fit:cover;display:block;}
+    .tips-card{position:absolute;top:22px;right:6px;z-index:10;background:var(--deep);color:var(--cream);border-radius:16px;padding:16px 22px;animation:floatY 5s ease-in-out infinite;box-shadow:0 12px 40px rgba(26,61,53,.3);}
+    .tips-num{font-family:'Cormorant Garamond',serif;font-size:2.3rem;font-weight:300;color:var(--warm);line-height:1;}
+    .tips-lbl{font-size:.7rem;color:rgba(250,246,240,.6);margin-top:2px;}
+    .tips-content h2{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.4vw,2.85rem);color:var(--deep);font-weight:700;line-height:1.1;margin-bottom:20px;}
+    .tips-content h2 em{font-style:italic;color:var(--teal);}
+    .tips-content>p{font-size:.92rem;color:var(--muted);line-height:1.82;margin-bottom:26px;font-weight:300;}
+    .tips-list{list-style:none;display:flex;flex-direction:column;gap:12px;}
+    .tips-list li{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;background:var(--cream);border-radius:12px;transition:all .2s;}
+    .tips-list li:hover{background:var(--warm);}
+    .tip-ico{width:34px;height:34px;min-width:34px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.92rem;}
+    .tip-t strong{display:block;font-size:.85rem;font-weight:600;color:var(--deep);margin-bottom:1px;}
+    .tip-t span{font-size:.75rem;color:var(--muted);}
+
+    /* ── CTA ── */
+    .cta-wrap{margin:0 60px 88px;background:var(--deep);border-radius:28px;padding:76px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:40px;}
+    .cta-wrap::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(212,100,74,.28) 0%,transparent 70%);pointer-events:none;}
+    .cta-wrap::after{content:'';position:absolute;bottom:-80px;left:80px;width:380px;height:380px;background:radial-gradient(circle,rgba(42,123,111,.18) 0%,transparent 70%);pointer-events:none;}
+    .cta-txt{position:relative;z-index:1;}
+    .cta-txt h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.7rem);font-weight:700;color:var(--cream);line-height:1.2;margin-bottom:14px;}
+    .cta-txt h2 em{font-style:italic;color:var(--warm);}
+    .cta-txt p{font-size:.92rem;color:rgba(250,246,240,.56);max-width:460px;line-height:1.72;}
+    .cta-btns{position:relative;z-index:1;display:flex;gap:13px;flex-shrink:0;}
+    .btn-lt{background:var(--cream);color:var(--deep);padding:13px 28px;border-radius:50px;font-size:.82rem;font-weight:600;letter-spacing:.06em;text-decoration:none;transition:all .3s;white-space:nowrap;}
+    .btn-lt:hover{background:var(--warm);transform:translateY(-2px);}
+    .btn-ol{background:transparent;color:rgba(250,246,240,.7);padding:13px 28px;border-radius:50px;font-size:.82rem;font-weight:500;letter-spacing:.06em;text-decoration:none;border:1px solid rgba(250,246,240,.2);transition:all .3s;white-space:nowrap;}
+    .btn-ol:hover{border-color:var(--warm);color:var(--warm);}
+
+    /* ── FOOTER ── */
+    footer{background:var(--deep);padding:56px 60px 34px;}
+    .ft-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:56px;margin-bottom:52px;padding-bottom:52px;border-bottom:1px solid rgba(250,246,240,.07);}
+    .ft-brand .logo{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:600;color:var(--cream);}
+    .ft-brand .logo span{color:var(--coral);font-style:italic;}
+    .ft-brand p{font-size:.82rem;color:rgba(250,246,240,.4);margin-top:13px;line-height:1.82;max-width:250px;}
+    .ft-col h5{font-size:.68rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(250,246,240,.36);margin-bottom:18px;}
+    .ft-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+    .ft-col ul a{font-size:.82rem;color:rgba(250,246,240,.6);text-decoration:none;transition:color .2s;}
+    .ft-col ul a:hover{color:var(--warm);}
+    .ft-bot{display:flex;align-items:center;justify-content:space-between;}
+    .ft-bot p{font-size:.74rem;color:rgba(250,246,240,.26);}
+
+    /* ── REVEAL ── */
+    .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease;}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:1024px){
+      nav{padding:14px 22px;}
+      .nav-links{display:none;}
+      .hero{grid-template-columns:1fr;padding:105px 22px 52px;gap:0;}
+      .hero-visuals{display:none;}
+      .section-hd,.destinations{padding-left:22px;padding-right:22px;}
+      .dest-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
+      .dest-card,.dest-card:first-child{grid-row:auto;height:200px;}
+      .features{grid-template-columns:1fr 1fr;padding:38px 22px;gap:26px;}
+      .apps-section,.blog-section{padding:60px 22px;}
+      .apps-grid{grid-template-columns:1fr 1fr;}
+      .blog-row1{grid-template-columns:1fr;}
+      .blog-row2{grid-template-columns:1fr 1fr;}
+      .tips-section{grid-template-columns:1fr;padding:60px 22px;}
+      .tips-visual{display:none;}
+      .cta-wrap{margin:0 22px 60px;padding:44px 28px;flex-direction:column;}
+      footer{padding:38px 22px 28px;}
+      .ft-top{grid-template-columns:1fr 1fr;gap:34px;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="nav">
+  <div href="#destinations" class="nav-logo">Stream<span>Perk</span></div>
+  <ul class="nav-links">
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#apps">Apps</a></li>
+    <li><a href="#blog">Blog</a></li>
+    <li><a href="#tips">Travel Tips</a></li>
+    <li><a href="#apps" class="nav-cta">Get the App</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-text reveal">
+    <div class="eyebrow"><div class="eyebrow-line"></div><span>Explore the Philippines</span></div>
+    <h1>Discover<br><em>Paradise</em><br>Awaits You</h1>
+    <p class="hero-sub">From the turquoise lagoons of Palawan to the powdery shores of Boracay — your dream island escape starts here across 7,641 islands of wonder.</p>
+    <div class="hero-actions">
+      <a href="#destinations" class="btn-primary">Explore Destinations <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="#tips" class="btn-secondary">Travel Guide <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">7,641</div><div class="stat-label">Islands</div></div>
+      <div><div class="stat-num">#1</div><div class="stat-label">Palawan Ranked</div></div>
+      <div><div class="stat-num">4.7★</div><div class="stat-label">Avg. Rating</div></div>
+    </div>
+  </div>
+
+  <div class="hero-visuals">
+    <div class="hero-badge">
+      <div class="badge-icon">🏆</div>
+      <div class="badge-text">
+        <strong>World's Best Island</strong>
+        <span>Palawan — U.S. News 2025</span>
+      </div>
+    </div>
+
+    <!-- Small card: rice terraces -->
+    <div class="hero-img-sm">
+      <img
+        src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=500&fit=crop&q=80"
+        alt="Banaue Rice Terraces Philippines"
+        loading="eager"/>
+    </div>
+
+    <!-- Main card: El Nido lagoon -->
+    <div class="hero-img-main">
+      <img
+        src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=700&h=900&fit=crop&q=80"
+        alt="El Nido Palawan Philippines"
+        loading="eager"/>
+    </div>
+
+    <!-- Decorative dots -->
+    <div class="hero-dots">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DESTINATIONS ═══ -->
+<section id="destinations">
+  <div class="section-hd reveal">
+    <div class="eyebrow"><span>✦</span> Top Destinations</div>
+    <h2>Where Will You<br><em>Adventure</em> Next?</h2>
+    <p>Handpicked destinations rated by thousands of travelers — from hidden lagoons to ancient rice terraces and world-class surf breaks.</p>
+  </div>
+  <div class="destinations">
+    <div class="dest-grid reveal">
+
+      <!-- El Nido big -->
+      <div class="dest-card">
+        <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=800&h=700&fit=crop&q=80" alt="El Nido Palawan"/>
+        <div class="dest-ov"></div>
+        <div class="dest-star">★ 4.7</div>
+        <div class="dest-info">
+          <div class="dest-tag">Palawan</div>
+          <div class="dest-name">El Nido</div>
+          <div class="dest-sub">Hidden lagoons & limestone cliffs</div>
+        </div>
+      </div>
+
+      <!-- Boracay -->
+      <div class="dest-card">
+        <img src="https://images.unsplash.com/photo-1597933085563-f5d04f56f4df?w=500&h=320&fit=crop&q=80" alt="Boracay White Beach"/>
+        <div class="dest-ov"></div>
+        <div class="dest-star">★ 4.6</div>
+        <div class="dest-info">
+          <div class="dest-tag">Aklan</div>
+          <div class="dest-name">Boracay</div>
+          <div class="dest-sub">White Beach paradise</div>
+        </div>
+      </div>
+
+      <!-- Siargao -->
+      <div class="dest-card">
+        <img src="https://images.unsplash.com/photo-1504185945330-7a3ca1380535?w=500&h=320&fit=crop&q=80" alt="Siargao surfing"/>
+        <div class="dest-ov"></div>
+        <div class="dest-star">★ 4.7</div>
+        <div class="dest-info">
+          <div class="dest-tag">Mindanao</div>
+          <div class="dest-name">Siargao</div>
+          <div class="dest-sub">Surfer's paradise island</div>
+        </div>
+      </div>
+
+      <!-- Bohol -->
+      <div class="dest-card">
+        <img src="https://images.unsplash.com/photo-1655551408965-9d3a1ab98e61?w=500&h=320&fit=crop&q=80" alt="Chocolate Hills Bohol"/>
+        <div class="dest-ov"></div>
+        <div class="dest-star">★ 4.4</div>
+        <div class="dest-info">
+          <div class="dest-tag">Bohol</div>
+          <div class="dest-name">Chocolate Hills</div>
+          <div class="dest-sub">Unique geological wonder</div>
+        </div>
+      </div>
+
+      <!-- Rice Terraces -->
+      <div class="dest-card">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500&h=320&fit=crop&q=80" alt="Banaue Rice Terraces"/>
+        <div class="dest-ov"></div>
+        <div class="dest-star">★ 4.7</div>
+        <div class="dest-info">
+          <div class="dest-tag">Ifugao</div>
+          <div class="dest-name">Rice Terraces</div>
+          <div class="dest-sub">UNESCO World Heritage site</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURES ═══ -->
+<div class="features reveal">
+  <div class="feat-item">
+    <div class="feat-icon">🌊</div>
+    <h4>Crystal Waters</h4>
+    <p>Some of the clearest seas on earth, teeming with marine biodiversity</p>
+  </div>
+  <div class="feat-item">
+    <div class="feat-icon">🏔️</div>
+    <h4>Natural Wonders</h4>
+    <p>From perfect volcanoes to ancient terraces carved into mountains</p>
+  </div>
+  <div class="feat-item">
+    <div class="feat-icon">🎎</div>
+    <h4>Rich Culture</h4>
+    <p>Deep-rooted Filipino culture with vibrant festivals and unique cuisine</p>
+  </div>
+  <div class="feat-item">
+    <div class="feat-icon">✈️</div>
+    <h4>Easy Access</h4>
+    <p>Well-connected airports and ferry routes between major islands</p>
+  </div>
+</div>
+
+<!-- ═══ APPS ═══ -->
+<section id="apps" class="apps-section">
+  <div class="apps-hd reveal">
+    <div class="apps-hd-left">
+      <div class="eyebrow"><span>✦</span> StreamPerk Apps</div>
+      <h2>Play While<br>You <em>Travel</em></h2>
+      <p>Download our suite of mobile games — perfect for long flights, beach days, and everything in between.</p>
+    </div>
+    <a href="https://play.google.com/store" target="_blank" class="btn-primary">View All Apps <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+  <div class="apps-grid reveal">
+    <div class="app-card">
+      <div class="app-thumb at-green"><div class="app-ltr">S</div><div class="app-ico">🐍</div></div>
+      <div class="app-body">
+        <div class="app-name">Snake Classic</div>
+        <div class="app-desc">The timeless arcade challenge with a modern twist — how long can your snake grow?</div>
+        <div class="app-ft"><span class="app-bdg">▶ Free</span><a href="https://play.google.com/store" target="_blank" class="btn-inst">Install <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+      </div>
+    </div>
+    <div class="app-card">
+      <div class="app-thumb at-blue"><div class="app-ltr">C</div><div class="app-ico">♟️</div></div>
+      <div class="app-body">
+        <div class="app-name">Chess Master</div>
+        <div class="app-desc">Strategic gameplay for all levels. Challenge friends or train against sharp AI opponents.</div>
+        <div class="app-ft"><span class="app-bdg">▶ Free</span><a href="https://play.google.com/store" target="_blank" class="btn-inst">Install <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+      </div>
+    </div>
+    <div class="app-card">
+      <div class="app-thumb at-pink"><div class="app-ltr">Q</div><div class="app-ico">🧠</div></div>
+      <div class="app-body">
+        <div class="app-name">Quiz Game</div>
+        <div class="app-desc">Test your knowledge across travel, culture, science, and more — learn as you play.</div>
+        <div class="app-ft"><span class="app-bdg">▶ Free</span><a href="https://play.google.com/store" target="_blank" class="btn-inst">Install <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+      </div>
+    </div>
+    <div class="app-card">
+      <div class="app-thumb at-orange"><div class="app-ltr">B</div><div class="app-ico">🏠</div></div>
+      <div class="app-body">
+        <div class="app-name">Bahay Bahayan</div>
+        <div class="app-desc">A uniquely Filipino house-building game rooted in tradition and creativity.</div>
+        <div class="app-ft"><span class="app-bdg">▶ Free</span><a href="https://play.google.com/store" target="_blank" class="btn-inst">Install <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BLOG ═══ -->
+<section id="blog" class="blog-section">
+  <div class="blog-inner">
+    <div class="blog-hd reveal">
+      <div class="blog-hd-left">
+        <div class="eyebrow"><span>✦</span> Travel Blog</div>
+        <h2>Stories from the <em>Islands</em></h2>
+        <p>Real guides, itineraries, and insider tips from top travel bloggers who've explored the Philippine archipelago.</p>
+      </div>
+      <a href="#" class="btn-ghost">All Articles <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+
+    <!-- Row 1: big featured + 3 stacked -->
+    <div class="blog-row1 reveal">
+
+      <!-- FEATURED -->
+      <a class="blog-featured" href="https://bucketlistbums.com/single-post/philippines/" target="_blank" style="text-decoration:none;">
+        <div class="bf-img">
+          <img src="https://images.unsplash.com/photo-1559628233-100c798642d0?w=700&h=400&fit=crop&q=80" alt="Philippines 2-Week Itinerary"/>
+        </div>
+        <div class="bf-body">
+          <span class="blog-cat">📍 Full Itinerary</span>
+          <div class="blog-title">The Philippines: 2-Week Itinerary & Island Hopping Guide</div>
+          <p class="blog-excerpt">Island hopping through Bohol, Panglao, Siquijor, Banaue and Palawan — the complete route every traveller should bookmark before booking their flights.</p>
+          <div class="blog-meta">
+            <span>🗓️ Updated 2026</span>
+            <span>⏱️ 9 min read</span>
+            <span class="src-badge">📖 Bucketlist Bums</span>
+          </div>
+          <span class="blog-source" style="margin-top:16px;">Read on Bucketlist Bums <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        </div>
+      </a>
+
+      <!-- Stacked 3 -->
+      <div class="blog-stack">
+
+        <a class="blog-sm" href="https://www.saltinourhair.com/philippines/" target="_blank" style="text-decoration:none;">
+          <div class="bsm-img">
+            <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=200&h=160&fit=crop&q=80" alt="Philippines Travel Guide"/>
+          </div>
+          <div class="bsm-body">
+            <span class="blog-cat">🗺️ Travel Guide</span>
+            <div class="blog-title" style="font-size:1rem;">Philippines Travel Guide 2026 — Itineraries, Top Places & Costs</div>
+            <div class="blog-meta" style="margin-top:6px;"><span>⏱️ 12 min</span><span class="src-badge">🧂 Salt in our Hair</span></div>
+          </div>
+        </a>
+
+        <a class="blog-sm" href="https://www.stokedtotravel.com/philippines-travel-tips/" target="_blank" style="text-decoration:none;">
+          <div class="bsm-img">
+            <img src="https://images.unsplash.com/photo-1504185945330-7a3ca1380535?w=200&h=160&fit=crop&q=80" alt="Philippines Tips"/>
+          </div>
+          <div class="bsm-body">
+            <span class="blog-cat">💡 Tips & Advice</span>
+            <div class="blog-title" style="font-size:1rem;">Complete Philippines Travel Guide: Weather, Money, Safety & Transport</div>
+            <div class="blog-meta" style="margin-top:6px;"><span>⏱️ 10 min</span><span class="src-badge">🤙 Stoked to Travel</span></div>
+          </div>
+        </a>
+
+        <a class="blog-sm" href="https://thetravelista.net/travel/an-essential-travel-guide-to-the-philippines/" target="_blank" style="text-decoration:none;">
+          <div class="bsm-img">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&h=160&fit=crop&q=80" alt="Philippines 3 Week Itinerary"/>
+          </div>
+          <div class="bsm-body">
+            <span class="blog-cat">📅 3-Week Trip</span>
+            <div class="blog-title" style="font-size:1rem;">An Essential Guide to The Philippines — 3 Week Itinerary</div>
+            <div class="blog-meta" style="margin-top:6px;"><span>⏱️ 8 min</span><span class="src-badge">✈️ The Travelista</span></div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- Row 2: 3 cards -->
+    <div class="blog-row2 reveal">
+
+      <a class="blog-card" href="https://zannavandijk.co.uk/philippines-travel-guide/" target="_blank" style="text-decoration:none;">
+        <div class="bc-img">
+          <img src="https://images.unsplash.com/photo-1597933085563-f5d04f56f4df?w=400&h=220&fit=crop&q=80" alt="Boracay guide"/>
+        </div>
+        <div class="bc-body">
+          <span class="blog-cat">🏖️ 2-Week Itinerary</span>
+          <div class="blog-title">The Philippines: Travel Guide & A 2-Week Itinerary to Plan Your Adventure</div>
+          <div class="blog-meta" style="margin-top:8px;"><span>⏱️ 7 min</span><span class="src-badge">🌿 Zanna Van Dijk</span></div>
+        </div>
+      </a>
+
+      <a class="blog-card" href="https://wanderingearl.com/mini-guide-to-travel-in-the-philippines/" target="_blank" style="text-decoration:none;">
+        <div class="bc-img">
+          <img src="https://images.unsplash.com/photo-1655551408965-9d3a1ab98e61?w=400&h=220&fit=crop&q=80" alt="Palawan travel"/>
+        </div>
+        <div class="bc-body">
+          <span class="blog-cat">🗺️ Region-by-Region</span>
+          <div class="blog-title">A Mini Guide to Travel in the Philippines — Luzon, Visayas & Palawan</div>
+          <div class="blog-meta" style="margin-top:8px;"><span>⏱️ 6 min</span><span class="src-badge">🌍 Wandering Earl</span></div>
+        </div>
+      </a>
+
+      <a class="blog-card" href="https://raisingvoyagers.com/philippines/" target="_blank" style="text-decoration:none;">
+        <div class="bc-img">
+          <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&h=220&fit=crop&q=80" alt="Family Philippines travel"/>
+        </div>
+        <div class="bc-body">
+          <span class="blog-cat">👨‍👩‍👧 Family Travel</span>
+          <div class="blog-title">Philippines with Kids — Boat Tours, Magical Islands & the Best Smoothies</div>
+          <div class="blog-meta" style="margin-top:8px;"><span>⏱️ 5 min</span><span class="src-badge">🧳 Raising Voyagers</span></div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- FAQ strip from search data -->
+    <div class="reveal" style="margin-top:44px;background:var(--sand);border-radius:20px;padding:36px 40px;display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div>
+        <p style="font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);margin-bottom:14px;">✦ Travellers Also Ask</p>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="padding:14px 18px;background:var(--cream);border-radius:12px;border-left:3px solid var(--teal);">
+            <p style="font-size:.84rem;font-weight:600;color:var(--deep);margin-bottom:4px;">How many days in the Philippines is enough?</p>
+            <p style="font-size:.77rem;color:var(--muted);line-height:1.65;">A short 4-day stay covers a city or two, but at least <strong>2 weeks</strong> is recommended — most bloggers suggest 3 weeks to see Palawan, Boracay, and Bohol properly.</p>
+          </div>
+          <div style="padding:14px 18px;background:var(--cream);border-radius:12px;border-left:3px solid var(--coral);">
+            <p style="font-size:.84rem;font-weight:600;color:var(--deep);margin-bottom:4px;">What is the best month to go?</p>
+            <p style="font-size:.77rem;color:var(--muted);line-height:1.65;"><strong>December to February</strong> is the sweet spot — warm 75–88°F temperatures, sunny skies, and minimal rain. Shoulder months (Nov, Apr) offer fewer crowds.</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);margin-bottom:14px;">✦ Safety & Planning</p>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="padding:14px 18px;background:var(--cream);border-radius:12px;border-left:3px solid var(--gold,#B8913A);">
+            <p style="font-size:.84rem;font-weight:600;color:var(--deep);margin-bottom:4px;">Is the Philippines safe for tourists?</p>
+            <p style="font-size:.77rem;color:var(--muted);line-height:1.65;">Major tourist areas like Palawan, Boracay, and Cebu are generally safe. Exercise caution in Mindanao and the Sulu Archipelago. Always check your government's latest advisory.</p>
+          </div>
+          <div style="padding:14px 18px;background:var(--cream);border-radius:12px;border-left:3px solid var(--teal);">
+            <p style="font-size:.84rem;font-weight:600;color:var(--deep);margin-bottom:4px;">Top blogs to follow for planning?</p>
+            <p style="font-size:.77rem;color:var(--muted);line-height:1.65;">Salt in our Hair, Bucketlist Bums, Stoked to Travel, The Travelista, and Wandering Earl all have detailed 2026 Philippines guides.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ TIPS ═══ -->
+<section id="tips" class="tips-section">
+  <div class="tips-visual reveal">
+    <div class="tv-main">
+      <img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=600&h=500&fit=crop&q=80" alt="El Nido travel"/>
+    </div>
+    <div class="tv-sm">
+      <img src="https://images.unsplash.com/photo-1597933085563-f5d04f56f4df?w=400&h=320&fit=crop&q=80" alt="Boracay beach"/>
+    </div>
+    <div class="tips-card">
+      <div class="tips-num">20+</div>
+      <div class="tips-lbl">Top Tourist Spots</div>
+    </div>
+  </div>
+
+  <div class="tips-content reveal">
+    <div class="eyebrow" style="justify-content:flex-start;"><span>✦</span> Traveler's Guide</div>
+    <h2>Essential <em>Tips</em><br>Before You Go</h2>
+    <p>Insider tips sourced from top travel blogs and thousands of traveler reviews across the archipelago.</p>
+    <ul class="tips-list">
+      <li><div class="tip-ico">🌤️</div><div class="tip-t"><strong>Best Season: Dec–Feb</strong><span>Dry season with 75–88°F temps, sunny skies, perfect for beaches & island hopping</span></div></li>
+      <li><div class="tip-ico">📅</div><div class="tip-t"><strong>Plan At Least 2–3 Weeks</strong><span>Most top bloggers recommend 3 weeks to cover Palawan, Boracay, and Bohol</span></div></li>
+      <li><div class="tip-ico">🏖️</div><div class="tip-t"><strong>Start with Palawan</strong><span>El Nido & Coron ranked #1 island globally (U.S. News 2025) — don't skip it</span></div></li>
+      <li><div class="tip-ico">🛡️</div><div class="tip-t"><strong>Stay in Tourist Zones</strong><span>Palawan, Boracay & Cebu are safest — avoid Mindanao's conflict zones</span></div></li>
+      <li><div class="tip-ico">🌊</div><div class="tip-t"><strong>Use Reef-Safe Sunscreen</strong><span>Protect world-class coral reefs — many islands require reef-safe products</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<div class="cta-wrap reveal">
+  <div class="cta-txt">
+    <h2>Ready to Discover<br><em>Your Philippines?</em></h2>
+    <p>Join thousands of travelers exploring paradise. Download our apps to plan, play, and explore on the go.</p>
+  </div>
+  <div class="cta-btns">
+    <a href="https://play.google.com/store" target="_blank" class="btn-lt">Get the Apps</a>
+    <a href="#destinations" class="btn-ol">Explore Destinations</a>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="ft-top">
+    <div class="ft-brand">
+      <div class="logo">Stream<span>Perk</span></div>
+      <p>Bringing quality games and travel discovery to your fingertips. Explore the Philippines — one island at a time.</p>
+    </div>
+    <div class="ft-col">
+      <h5>Destinations</h5>
+      <ul>
+        <li><a href="#">El Nido, Palawan</a></li>
+        <li><a href="#">Boracay</a></li>
+        <li><a href="#">Siargao</a></li>
+        <li><a href="#">Bohol</a></li>
+        <li><a href="#">Coron</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h5>Apps</h5>
+      <ul>
+        <li><a href="#">Snake Classic</a></li>
+        <li><a href="#">Chess Master</a></li>
+        <li><a href="#">Quiz Game</a></li>
+        <li><a href="#">Bahay Bahayan</a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#blog">Travel Blog</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <p>© 2026 StreamPerk. All rights reserved.</p>
+    <p>Made with ♥ for the Philippines 🇵🇭</p>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+  },{threshold:.07});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  // Nav shadow on scroll
+  window.addEventListener('scroll',()=>{
+    document.getElementById('nav').style.boxShadow =
+      window.scrollY > 50 ? '0 4px 24px rgba(26,61,53,.08)' : 'none';
+  });
+</script>
+</body>
+</html>
