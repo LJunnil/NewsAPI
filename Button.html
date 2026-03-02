@@ -1,0 +1,285 @@
+
+<style>
+.manual-button.show-manual-controls:hover {
+  background-color: #da291c;
+  color: #ffffff;   
+  border: 1px solid #da291c;
+}
+.category-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 10px;
+}
+.btn {
+    background-color: transparent;
+    padding: 12px 18px;
+    font-size: 12px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid #af8564;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+    color: #af8564;
+}
+.active {
+    background-color: #af8564; 
+    color: #ffffff; 
+}
+.active:hover {
+    background-color: #da291c;
+    color: #ffffff;
+    border: 1px solid #da291c;
+}
+.btn:hover {
+    background-color: #da291c;
+    color: #ffffff;
+    border: 1px solid #da291c;
+}
+#col-controlproduct-post-card {
+    display: none;
+}
+
+/* Sauna Room Cards */
+#sauna-room-cards {
+    display: none;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+    padding: 20px 10px;
+}
+.sauna-room-card {
+    background: #fff;
+    border: 1px solid #e0d5cc;
+    border-radius: 8px;
+    width: 280px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    transition: box-shadow 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+}
+.sauna-room-card:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.13);
+}
+.sauna-room-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+.sauna-room-card-body {
+    padding: 16px;
+    text-align: center;
+}
+.sauna-room-card-body h3 {
+    font-size: 14px;
+    font-weight: 0;
+    color: #333;
+    margin: 0 0 4px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.sauna-room-card-body .card-series {
+    font-size: 11px;
+    color: #af8564;
+    margin: 0 0 14px 0;
+    font-weight: 500;
+}
+.sauna-room-card-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+.sauna-room-card-actions a {
+    padding: 9px 16px;
+    font-size: 11px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    border: 1px solid #af8564;
+    cursor: pointer;
+}
+.btn-explore {
+    background-color: #af8564;
+    color: #fff !important;
+}
+.btn-explore:hover {
+    background-color: #da291c !important;
+    border-color: #da291c !important;
+    color: #fff !important;
+}
+.btn-manual {
+    background-color: transparent;
+    color: #af8564 !important;
+}
+.btn-manual:hover {
+    background-color: #da291c !important;
+    border-color: #da291c !important;
+    color: #fff !important;
+}
+
+@media screen and (max-width: 768px) {
+    .btn { font-size: 8px; padding: 10px 13px; }
+    .sauna-room-card { width: 100%; max-width: 340px; }
+}
+</style>
+
+<!-- BUTTONS 
+<div id="product_category" class="category-buttons">
+    <button class="category-button btn active" id="saunaHeaterBtn">Sauna Heater</button>
+    <button class="category-button btn" id="saunaControlsBtn">Sauna Controls</button>
+    <button class="category-button btn" id="steamGenenatorBtn">Steam Generator</button>
+    <button class="category-button btn" id="saunaRoomBtn">Sauna Room</button>
+</div>
+-->
+<!-- SAUNA ROOM CARDS -->
+<div id="sauna-room-cards">
+    <div class="sauna-room-card">
+        <img src="https://www.sawo.com/wp-content/uploads/2026/02/STANDARD-SAUNA-ROOM.jpg" alt="Standard Sauna Room" />
+        <div class="sauna-room-card-body">
+            <h3>Standard Sauna Room</h3>
+            <p class="card-series">Sauna Room Series</p>
+            <div class="sauna-room-card-actions">
+                <a href="http://sawo.test:8081/sauna-rooms/" class="btn-explore">Explore</a> 
+                <a href="https://www.sawo.com/wp-content/uploads/2026/02/Standard-Sauna-Room-Manual-2026.pdf" target="_blank" class="btn-manual">View Manual</a>
+            </div>
+        </div>
+    </div>
+   <div class="sauna-room-card">
+        <img src="https://www.sawo.com/wp-content/uploads/2026/02/GLASS-FRONT-SAUNA-ROOM.jpg" alt="Glass Front Sauna Room" />
+        <div class="sauna-room-card-body">
+            <h3>Glass Front Sauna Room</h3>
+            <p class="card-series">Sauna Room Series</p>
+            <div class="sauna-room-card-actions">
+                <a href="http://sawo.test:8081/sauna-rooms/" class="btn-explore">Explore</a> 
+                <a href="https://www.sawo.com/wp-content/uploads/2026/02/Glass-Front-Assembly-Manual-2026.pdf" target="_blank" class="btn-manual">View Manual</a>
+            </div>
+        </div>
+    </div> 
+</div>
+
+<script>
+(function () {
+    function init() {
+        var buttons = {
+            heater:   document.getElementById('saunaHeaterBtn'),
+            controls: document.getElementById('saunaControlsBtn'),
+            steam:    document.getElementById('steamGenenatorBtn'),
+            room:     document.getElementById('saunaRoomBtn')
+        };
+        var saunaRoomCards = document.getElementById('sauna-room-cards');
+        if (!buttons.room || !saunaRoomCards) return;
+
+        // ── Find elements to hide ──────────────────────────────────────────
+        // Strategy: walk UP from #product_category until we find a node
+        // whose PARENT is the main page content wrapper, then hide all
+        // siblings that come AFTER our node.
+        function getSiblingRowsToHide() {
+            var ref = document.getElementById('product_category');
+            if (!ref) return [];
+
+            // Walk up through parents, collect each ancestor
+            var ancestors = [];
+            var el = ref.parentElement;
+            while (el) {
+                ancestors.push(el);
+                el = el.parentElement;
+            }
+
+            // Try each ancestor: look for one whose next siblings contain
+            // the search bar or post grid (fusion-posts-container / fusion-grid)
+            for (var i = 0; i < ancestors.length; i++) {
+                var candidate = ancestors[i];
+                var next = candidate.nextElementSibling;
+                while (next) {
+                    // Does this sibling (or its descendants) contain the search bar or post grid?
+                    if (
+                        next.querySelector('input[placeholder*="Search"]') ||
+                        next.querySelector('.fusion-posts-container') ||
+                        next.querySelector('.fusion-grid') ||
+                        next.querySelector('.fusion-blog') ||
+                        next.classList.contains('fusion-posts-container') ||
+                        next.classList.contains('fusion-grid') ||
+                        next.classList.contains('fusion-fullwidth')
+                    ) {
+                        // Found the right level — collect ALL siblings from candidate onward
+                        var siblings = [];
+                        var s = candidate.nextElementSibling;
+                        while (s) {
+                            siblings.push(s);
+                            s = s.nextElementSibling;
+                        }
+                        return siblings;
+                    }
+                    next = next.nextElementSibling;
+                }
+            }
+
+            // Fallback: log to console so we can debug
+            console.warn('[SAWO] Could not find sibling rows. Dumping ancestor chain:');
+            ancestors.slice(0, 8).forEach(function(a, idx) {
+                console.log('[SAWO] ancestor[' + idx + ']', a.tagName, a.className.substr(0,80));
+                var s = a.nextElementSibling;
+                if (s) console.log('   → nextSibling:', s.tagName, s.className.substr(0,80));
+            });
+            return [];
+        }
+
+        var cachedSiblings = null;
+
+        function getHideTargets() {
+            if (!cachedSiblings) {
+                cachedSiblings = getSiblingRowsToHide();
+                console.log('[SAWO] Will hide', cachedSiblings.length, 'sibling rows');
+            }
+            return cachedSiblings;
+        }
+
+        function setActive(activeKey) {
+            Object.keys(buttons).forEach(function (k) {
+                if (buttons[k]) buttons[k].classList.remove('active');
+            });
+            if (buttons[activeKey]) buttons[activeKey].classList.add('active');
+        }
+
+        function showSaunaRoom() {
+            setActive('room');
+            saunaRoomCards.style.display = 'flex';
+            getHideTargets().forEach(function (el) {
+                el.setAttribute('data-sawo-hidden', '1');
+                el.style.setProperty('display', 'none', 'important');
+            });
+        }
+
+        function hideSaunaRoom() {
+            saunaRoomCards.style.display = 'none';
+            document.querySelectorAll('[data-sawo-hidden="1"]').forEach(function (el) {
+                el.removeAttribute('data-sawo-hidden');
+                el.style.removeProperty('display');
+            });
+        }
+
+        buttons.room.addEventListener('click', showSaunaRoom);
+        [['heater','heater'],['controls','controls'],['steam','steam']].forEach(function(pair) {
+            if (buttons[pair[0]]) {
+                buttons[pair[0]].addEventListener('click', function () {
+                    setActive(pair[1]);
+                    hideSaunaRoom();
+                });
+            }
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+</script>

@@ -1210,3 +1210,5 @@ function closeEnquiryPopup() {
 });
 
 console.log(window.location.origin);
+
+
